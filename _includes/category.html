@@ -1,0 +1,124 @@
+<!-- Main Content -->
+<div class="container">
+  <ul class="
+  col-lg-3 col-lg-offset-0
+  col-md-3 col-md-offset-0
+  col-sm-12
+  col-xs-12
+  sidebar-container
+  category-sidebar
+  nav nav-tabs-vertical">
+    {% assign categories_list = site.categories %}
+    {% if categories_list.first[0] == null %}
+      {% for category in categories_list %}
+      <li>
+        <a href="{{ site.BASE_PATH }}/{{ site.categories_path }}#{{ category | replace:' ','-' }}-ref" data-toggle="tab">
+          {{ category | capitalize }} <span class="badge pull-right">{{ site.categories[category].size }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    {% else %}
+      {% for category in categories_list %}
+      <li>
+        <a href="{{ site.BASE_PATH }}/{{ site.categories_path }}#{{ category[0] | replace:' ','-' }}-ref" data-toggle="tab">
+          {{ category[0] | capitalize }} <span class="badge pull-right">{{ category[1].size }}</span>
+        </a>
+      </li>
+      {% endfor %}
+    {% endif %}
+  </ul>
+
+  <!-- Tab panes -->
+  <div class="
+  col-lg-8 col-lg-offset-1
+  col-md-9
+  col-sm-12
+  col-xs-12
+  postlist-container
+  tab-content-catogory
+  tab-content">
+    <div class="row">
+      <div class="col-lg-12 col-md-10">
+        {% for category in categories_list %}
+          <div class="tab-pane" id="{{ category[0] | replace:' ','-' }}-ref">
+            <!-- Article List -->
+            <div class="mini-post-list js-result d-none">
+              {%- assign _sorted_list = category[1] -%}
+              {%- assign _sorted_list = _sorted_list | sort: 'date' -%}
+
+              <!-- Get Article Nums -->
+              {% assign count = 1 %}
+              {% for post in _sorted_list %}
+                {% assign year = post.date | date: '%Y' %}
+                {% assign nyear = post.next.date | date: '%Y' %}
+                {% if year != nyear %}
+                  {% assign count = count | append: ', ' %}
+                  {% assign counts = counts | append: count %}
+                  {% assign count = 1 %}
+                {% else %}
+                  {% assign count = count | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+              {% assign counts = counts | split: ', ' | reverse %}
+              {% assign i = 0 %}
+
+              {%- assign _sorted_list = _sorted_list | reverse -%}
+              {%- for _article in _sorted_list -%}
+                {%- assign _tags = '' -%}
+                <!-- {%- for _tag in _article.tags -%}
+                  {%- assign _tag_encode = _tag | strip | url_encode -%}
+                  {%- if forloop.last -%}
+                    {%- assign _tags = _tags | append: _tag_encode -%}
+                  {%- else -%}
+                    {%- assign _tags = _tags | append: _tag_encode | append: ',' -%}
+                  {%- endif -%}
+                {%- endfor -%} -->
+
+                {% comment %} group by year {% endcomment %}
+                {%- assign _currentdate = _article.date | date: '%Y' -%}
+                {%- if _currentdate != _date -%}
+                  {%- unless forloop.first -%}</section>{%- endunless -%}
+                  {% if counts[i] == 1 %}
+                    <section>
+                    <span class="fa listing-seperator">
+                      <span class="tag-text">{{ _currentdate }}</span>
+                      <span class="tag-text-num">{{ counts[i] }} Post</span>
+                    </span>
+                  {% else %}
+                    <section>
+                    <span class="fa listing-seperator">
+                      <span class="tag-text">{{ _currentdate }}</span>
+                      <span class="tag-text-num">{{ counts[i] }} Posts</span>
+                    </span>
+                  {% endif %}
+                  {%- assign _date = _currentdate -%}
+                  {% assign i = i | plus: 1 %}
+                {%- endif -%}
+                </section>
+
+                <div class="post-preview item" data-tags="{{ _tags }}">
+                  <a href="{{site.BASE_PATH}}{{_article.url}}">
+                    <h2 class="post-title">
+                      {{ _article.title }}
+                      <span class="text-muted">-{{ _article.date | date: "%B %d, %Y" }}</span>
+                    </h2>
+                    {% if _article.subtitle %}
+                      <h3 class="post-subtitle">
+                        {{ _article.subtitle }}
+                      </h3>
+                    {% endif %}
+                  </a>
+                  <hr>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% assign _date = nil %}
+          {% assign counts = nil %}
+          {% assign _sorted_list = nil %}
+        {% endfor %}
+        {% assign categories_list = nil %}
+      </div>
+    </div>
+  </div>
+</div>

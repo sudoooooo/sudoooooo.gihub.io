@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>hello world</title>
-</head>
-<body>
-  <p>nothing to say~</p>
-</body>
-</html>
+---
+description: "我干了什么 究竟拿了时间换了什么"
+---
+
+<link rel="stylesheet" href="{{ "/css/hux-blog.min.css" | prepend: site.baseurl }}">
+
+<!-- Main Content -->
+<div class="home-container" id="containerId">
+  <div class="home-main">
+    <img class="icon" src="/img/icon.jpeg" />
+    <div class="read">
+      <p>每个人<br>在自己的时区里都有着自己的步程<br>没有早一步, 没有晚一步<br>只要脚踏实地一步步向前走<br>总会走到该到的地方</p>
+    </div>
+
+    {% include navBar.html type='page' short=true %}
+  </div>
+</div>

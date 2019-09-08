@@ -1,0 +1,26 @@
+<ul class="nav navbar-nav navbar-right">
+    <li>
+        <a href="{{ site.baseurl }}/">HOME</a>
+    </li>
+    <li>
+        {% if page.url == '/tech/' %}
+            <a style="background: #333" href="{{ site.baseurl }}/tech">TECH</a>
+        {% else %}
+            <a href="{{ site.baseurl }}/tech">TECH</a>
+        {% endif %}
+    </li>
+    <li>
+        {% if page.url == '/life/' %}
+            <a style="background: #333" href="{{ site.baseurl }}/life">LIFE</a>
+        {% else %}
+            <a href="{{ site.baseurl }}/life">LIFE</a>
+        {% endif %}
+    </li>
+    <li>
+        {% if page.url == '/about/' %}
+            <a style="background: #333" href="{{ site.baseurl }}/about">ABOUTME</a>
+        {% else %}
+            <a href="{{ site.baseurl }}/about">ABOUTME</a>
+        {% endif %}
+    </li>
+</ul>
